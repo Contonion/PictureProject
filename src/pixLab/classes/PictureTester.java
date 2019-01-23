@@ -73,6 +73,17 @@ public class PictureTester
 	  source.halfGreen();
 	  source.explore();
   }
+  public static void testSteganography()
+  {
+	  Picture source = new Picture("Plane.jpg");
+	  Picture message = new Picture("Eye.jpg");
+	  source.explore();
+	  message.explore();
+	  source.hidePicture(message);
+	  source.explore();
+	  source.revealPicture();
+	  source.explore();
+  }
   
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
@@ -93,6 +104,7 @@ public class PictureTester
     //testZeroBlue();
     //testKeepOnlyBlue();
     Final();
+    testSteganography();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
     //testNegate();
