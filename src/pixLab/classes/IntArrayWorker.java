@@ -63,6 +63,7 @@ public class IntArrayWorker
     }
   }
   
+  
   /**
    * print the values in the array in rows and columns
    */
@@ -99,5 +100,18 @@ public class IntArrayWorker
       }
     }
   }
+
+public int getCount(int i)
+{
+	int count = 0;
+    for (int row = 0; row < matrix.length; row++)
+    {
+      for (int col = 0; col < matrix[0].length; col++)
+      {
+        count = count + matrix[row][col];
+      }
+    }
+    return count;
+}
  
 }

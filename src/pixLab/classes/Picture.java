@@ -7,6 +7,8 @@ import java.text.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
 
+
+
 /**
  * A class that represents a picture.  This class inherits from 
  * SimplePicture and allows the student to add functionality to
@@ -85,6 +87,22 @@ public class Picture extends SimplePicture
     return output;
     
   }
+  public void mirriorVertical()
+  {
+	  Pixel[] [] pixels = this.getPixels2D();
+	  Pixel leftPixel = null;
+	  Pixel rightPixel = null;
+	  int width = pixels[0].length;
+	  for (int row = 0; row < pixels.length; row++)
+	  {
+		  for (int col = 0; col < width / 2; col++)
+		  {
+			  leftPixel = pixels[row][col];
+			  rightPixel = pixels[row][width -1 - col];
+			  rightPixel.setColor(leftPixel.getColor());
+		  }
+	  }
+  }
   
   /** Method to set the blue to 0 */
   public void zeroBlue()
@@ -97,6 +115,39 @@ public class Picture extends SimplePicture
         pixelObj.setBlue(0);
       }
     }
+  }
+  public void doubleBlue()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setBlue(pixelObj.getBlue() * 2);
+      }
+    }
+  }
+  public void halfGreen()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setGreen(pixelObj.getGreen() / 2);
+      }
+    }
+  }
+  public void zeroRed()
+  {
+	  Pixel[][] pixels = this.getPixels2D();
+	  for (Pixel [] row : pixels)
+	  {
+		  for (Pixel pix : row)
+		  {
+			  pix.setRed(0);
+		  }
+	  }
   }
   
   /** Method that mirrors the picture around a 
@@ -190,6 +241,37 @@ public class Picture extends SimplePicture
     this.mirrorVertical();
     this.write("collage.jpg");
   }
+  public void chromakey(Picture replacement, Color changeColor)
+  {
+	  Pixel [][] mainPixels = this.getPixels2D();
+	  Pixel [][] replacementPixels = replacement.getPixels2D();
+	  for (int row = 0; row < mainPixels.length; row++)
+	  {
+		  for (int col = 0; col < mainPixels[0].length; col++)
+		  {
+			  if (mainPixels[row][col].colorDistance(changeColor) < 15)
+			  {
+				  mainPixels[row][col].setColor(replacementPixels[row][col].getColor());
+			  }
+		  }
+	  }
+  }
+  public void mirriorHorizontal()
+  {
+	  Pixel [][] pixels = this.getPixels2D();
+	  Pixel upPixel = null;
+	  Pixel downPixel = null;
+	  int height = pixels.length;
+	  for (int col = 0; col < pixels[0].length; col++)
+	  {
+		  for (int row = 0; row < height / 2; row++)
+		  {
+			  upPixel = pixels [row][col];
+			  downPixel = pixels [height - 1 - row][col];
+			  downPixel.setColor(upPixel.getColor());
+		  }
+	  }
+  }
   
   
   /** Method to show large changes in color 
@@ -200,7 +282,7 @@ public class Picture extends SimplePicture
     Pixel leftPixel = null;
     Pixel rightPixel = null;
     Pixel[][] pixels = this.getPixels2D();
-    Color rightColor = null;
+    java.awt.Color rightColor = null;
     for (int row = 0; row < pixels.length; row++)
     {
       for (int col = 0; 
@@ -217,6 +299,51 @@ public class Picture extends SimplePicture
       }
     }
   }
+  public void shiftLeftRight(int amount)
+  {
+	  Pixel[][] pixels = this.getPixels2D();
+	  Picture temp = new Picture(this);
+	  Pixel [][] copied = temp.getPixels2D();
+	  int shiftedValue = amount;
+	  int width = pixels[0].length;
+	  for (int row = 0; row < pixels.length; row++)
+	  {
+		  for (int col = 0; col < pixels[0].length; col++)
+		  {
+			  shiftedValue = (col + amount) % width;
+			  copied[row][col].setColor(pixels[row][shiftedValue].getColor());
+		  }
+	  }
+	  for(int row = 0; row < pixels.length; row++)
+	  {
+		  for (int col = 0; col < pixels[0].length; col++)
+		  {
+			  pixels[row][col].setColor(copied[row][col].getColor());
+		  }
+	  }
+  }
+  public void shiftUpDown(int amount)
+  {
+	  Pixel[][] pixels = this.getPixels2D();
+	  Picture temp = new Picture(this);
+	  Pixel [][] copied = temp.getPixels2D();
+	  int shiftedValue = amount;
+	  int height = pixels.length;
+	  for (int row = 0; row < pixels.length; row++)
+	  {
+		  for (int col = 0; col < pixels[0].length; col++)
+		  {
+			  shiftedValue = (row + amount) % height;
+			  copied[row][col].setColor(pixels[shiftedValue][col].getColor());
+		  }
+	  }
+	  for(int row = 0; row < pixels.length; row++)
+	  {
+		  for (int col = 0; col < pixels[0].length; col++)
+		  {
+			  pixels[row][col].setColor(copied[row][col].getColor());  
+			  
+		  }}}
   
   
   /* Main method for testing - each class in Java can have a main 
@@ -228,6 +355,11 @@ public class Picture extends SimplePicture
     beach.explore();
     beach.zeroBlue();
     beach.explore();
+    Picture yosemite = new Picture("yosemite1.jpg");
+    yosemite.explore();
+    
+    yosemite.explore();
+   
   }
   
 } // this } is the end of class Picture, put all new methods before this

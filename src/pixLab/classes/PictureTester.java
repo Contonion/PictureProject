@@ -1,4 +1,7 @@
 package pixLab.classes;
+
+import java.awt.Color;
+
 /**
  * This class contains class (static) methods
  * that will help you test the Picture class 
@@ -35,6 +38,22 @@ public class PictureTester
     temple.mirrorTemple();
     temple.explore();
   }
+  public static void testZeroRed()
+  {
+	  Picture arch = new Picture("arch.jpg");
+	  arch.explore();
+	  arch.mirrorTemple();
+	  arch.explore();
+  }
+  public static void testChromakey()
+  {
+	  Picture source = new Picture("yosemite1.jpg");
+	  Picture background = new Picture("yosemite2.jpg");
+	  source.explore();
+	  background.explore();
+	  source.chromakey(background, new Color(0, 121, 199));
+	  source.explore();
+  }
   
   /** Method to test the collage method */
   public static void testCollage()
@@ -43,14 +62,26 @@ public class PictureTester
     canvas.createCollage();
     canvas.explore();
   }
+  public static void Final()
+  {
+	  Picture source = new Picture("Alpenglow.jpg");
+	  Picture background = new Picture("Art.jpg");
+	  source.mirriorVertical();
+	  source.zeroRed();
+	  source.chromakey(background, new Color(0, 121, 199));
+	  source.doubleBlue();
+	  source.halfGreen();
+	  source.explore();
+  }
   
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
-    Picture swan = new Picture("swan.jpg");
+    Picture swan = new Picture("seagull.jpg");
     swan.edgeDetection(10);
     swan.explore();
   }
+  
   
   /** Main method for testing.  Every class can have a main
     * method in Java */
@@ -59,14 +90,15 @@ public class PictureTester
     // uncomment a call here to run a test
     // and comment out the ones you don't want
     // to run
-    testZeroBlue();
+    //testZeroBlue();
     //testKeepOnlyBlue();
+    Final();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
     //testNegate();
     //testGrayscale();
     //testFixUnderwater();
-    testMirrorVertical();
+    //testMirrorVertical();
     //testMirrorTemple();
     //testMirrorArms();
     //testMirrorGull();
